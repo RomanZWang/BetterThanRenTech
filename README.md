@@ -41,3 +41,5 @@ We'll be using C++ first and possibly Python and R in the future.<br />
 We'll be treating this project professionally.
 
 ### Changes after talking with Salman
+
+### Tasks to complete

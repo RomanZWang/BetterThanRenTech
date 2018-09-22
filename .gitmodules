@@ -1,0 +1,3 @@
+[submodule "crypto_arbitrage_bot"]
+	path = crypto_arbitrage_bot
+	url = https://github.com/whoshuu/cpr-example
