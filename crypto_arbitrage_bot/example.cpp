@@ -1,6 +1,6 @@
 #include <iostream>
 #include <fstream>
-#include <chrono>
+#include <ctime>
 
 #include <cpr/cpr.h>
 #include <json.hpp>
@@ -10,11 +10,19 @@ void calcAndOutput(const std::string& src){
 	std::cout << "src : \"" << src << "\"\n";
 }
 
+long int unix_timestamp()
+{
+    time_t t = std::time(0);
+    long int now = static_cast<long int> (t);
+    return now;
+}
+
 int main(int argc, char** argv) {
-    std::string burl = "https://api.binance.com/api";
+    std::string burl = "https://api.binance.com";
     std::string ep1 = "/api/v1/ticker/allPrices";
     std::string ep2 = "/api/v3/account";
-    std::string data_query_string = "recvWindow=20000&timestamp=1519211811670";
+		std::string unix_epoch_time_now = std::to_string(unix_timestamp());
+    std::string data_query_string = "recvWindow=20000&timestamp=";
 
     auto response = cpr::Get(cpr::Url{"api.binance.com/api/v1/ticker/allPrices"});
     auto json = nlohmann::json::parse(response.text);
@@ -33,8 +41,13 @@ int main(int argc, char** argv) {
     }
 
 		SHA256 sha256object;
+		std::string secret_key_hash = sha256object(secret_key);
+		std::stringstream russ;
+		russ << burl << ep2 << "?" << data_query_string << "&signature=" << secret_key_hash;
+		std::string request_url = russ.str();
 
-    std::cout << "Public Key: " << public_key << std::endl << "Secret Key: " << secret_key << std::endl;
-		std::cout << "Hash of Secret Key: " << sha256object(secret_key) << std::endl;
+    std::cout << "Public Key: " << public_key << std::endl;
+		std::cout << "Hash of Secret Key: " << secret_key_hash << std::endl;
+		std::cout << "Full request url: " << request_url << std::endl;
 		return 0;
 }
