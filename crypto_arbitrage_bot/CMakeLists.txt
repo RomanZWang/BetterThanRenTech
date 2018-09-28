@@ -30,7 +30,7 @@ else()
 endif()
 
 add_subdirectory(opt)
-
+add_subdirectory(hash-library)
 add_executable(example example.cpp)
-target_link_libraries(example ${CPR_LIBRARIES})
+target_link_libraries(example hash-library ${CPR_LIBRARIES})
 include_directories(${CPR_INCLUDE_DIRS} ${JSON_INCLUDE_DIRS})
