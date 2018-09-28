@@ -1,4 +1,10 @@
 # BetterThanRenTech
+## Running the bot
+```
+cd build
+cmake ..
+make
+```
 ## Meeting 1 notes
 
 ### Resources
@@ -43,3 +49,29 @@ We'll be treating this project professionally.
 ### Changes after talking with Salman
 
 ### Tasks to complete
+
+## Meeting 2 notes
+### Goals
+
+#### Adam
+1. Stretch: learn about reinforcement learning and attempt to implement in small scale toy application
+2. “Social sentiment” try to web crawl  for what people are saying about various coins and add that as an input to our bot
+3. Practical skills: learn to make fast, high quality C++ and become a god
+Gain experience working with cloud services eg Amazon, Google. Use machine learning frameworks that  professionals use - tensorflow
+
+#### Andrew
+1.  Study the impact cryptocurrency has on the environment (ex. mining and transactions take electricity i.e. energy)
+2.  Learn how to better look at data and how to use outside data
+3. Be knowledgeable in all these disciplines of computer science (Ex. ML, Parallel computation, HCI/NLP, etc)
+
+#### Roman
+1. Portfolio literacy - financial terminology, financial metrics, hedging, *risk analysis*
+2. Programming fluency - Understand C++, Python compile level; GPU optimization
+3. Use a NLP approach on web data and news
+4. Use a data science approach
+
+#### Salman
+1. Learn about finance and tech combinations scalable within a software based bank system
+2. Anal isis of risk
+3. Finally learn ML
+4. Master statistical and stochastic processes for ML/quant
