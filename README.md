@@ -90,7 +90,7 @@ Gain experience working with cloud services eg Amazon, Google. Use machine learn
 
 ##### Salman
 1. Learn about finance and tech combinations scalable within a software based bank system
-2. Anal isis of risk
+2. Analysis of risk
 3. Finally learn ML
 4. Master statistical and stochastic processes for ML/quant
 
