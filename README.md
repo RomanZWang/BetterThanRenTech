@@ -5,6 +5,9 @@ cd build
 cmake ..
 make
 ```
+
+Create a file named public.txt and secret.txt. Put them in the key_store folder. This will be read by our bot to make API requests.
+
 ## Meeting 1 notes
 
 ### Resources
@@ -49,29 +52,58 @@ We'll be treating this project professionally.
 ### Changes after talking with Salman
 
 ### Tasks to complete
+Everyone - Come up with three fields they want to learn about when implementing this Project
+Adam - Finish Crypto-Exchange APIs
+Roman - Finish Crypto-bot logic after APIs are finished
+Andrew - Define exit cases and conditions where we panic sell
 
 ## Meeting 2 notes
-### Goals
 
-#### Adam
+### Overview
+Getting APIs set up took longer than expected. C++ libraries are less standard than python libraries and a lot harder to implement. We were able to get the major libraries like HTTP Requests and SHA256 libraries. Binance API is working which will hopefully expedite figuring out CEX.io API. Edge cases were worked on. after the meeting was over because of conflicts with the school grind. Expected finish date of crypto bot is end of September.
+
+### Tasks from last week
+Roman - finished Binance API
+Adam - will finish CEX.io API a few days after the meeting
+Andrew - will finish edge cases early next weekly
+
+#### Goals
+1. Complete the crypto bot
+2. Do independent research and share relevant articles
+
+##### Adam
 1. Stretch: learn about reinforcement learning and attempt to implement in small scale toy application
 2. “Social sentiment” try to web crawl  for what people are saying about various coins and add that as an input to our bot
 3. Practical skills: learn to make fast, high quality C++ and become a god
-Gain experience working with cloud services eg Amazon, Google. Use machine learning frameworks that  professionals use - tensorflow
+Gain experience working with cloud services eg Amazon, Google. Use machine learning frameworks that  professionals use - TensorFlow
 
-#### Andrew
+##### Andrew
 1.  Study the impact cryptocurrency has on the environment (ex. mining and transactions take electricity i.e. energy)
 2.  Learn how to better look at data and how to use outside data
 3. Be knowledgeable in all these disciplines of computer science (Ex. ML, Parallel computation, HCI/NLP, etc)
 
-#### Roman
+##### Roman
 1. Portfolio literacy - financial terminology, financial metrics, hedging, *risk analysis*
 2. Programming fluency - Understand C++, Python compile level; GPU optimization
 3. Use a NLP approach on web data and news
 4. Use a data science approach
 
-#### Salman
+##### Salman
 1. Learn about finance and tech combinations scalable within a software based bank system
 2. Anal isis of risk
 3. Finally learn ML
 4. Master statistical and stochastic processes for ML/quant
+
+## Week 3 meeting notes
+### Overview
+Discussed how we want to architect the trading algorithm. We want to find a service that ideally manages transactions, has virtual currency, and has access to stock prices, however if that doesn't exist, a combination of those features will be good. Last resort is to develop a portfolio from scratch or use a github repo. We want to wrap up last week's tasks and have something tangible for our strategy next week. We want to avoid bottlenecking this week.
+
+### Tasks from last meeting
+1. Crypto bot still in progress
+2. Did more research
+
+### Goals for this week
+Adam - Finish CEX.io. Work on portfolio API. Work on stock trading bot logic.
+Roman - Finish crypto bot logic. Work on portfolio API. Work on stock trading bot logic.
+Salman - Find best trading/portfolio service early in the week. Find an interesting strategy and implement it in Python.
+Andrew - Find an interesting strategy and implement it in Python. Define edge cases and panic sell conditions for stock trading bot.
