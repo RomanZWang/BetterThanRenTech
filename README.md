@@ -103,7 +103,7 @@ Discussed how we want to architect the trading algorithm. We want to find a serv
 2. Did more research
 
 ### Goals for this week
-Adam - Finish CEX.io. Work on portfolio API. Work on stock trading bot logic.
-Roman - Finish crypto bot logic. Work on portfolio API. Work on stock trading bot logic.
-Salman - Find best trading/portfolio service early in the week. Find an interesting strategy and implement it in Python.
+Adam - Finish CEX.io. Work on portfolio API. Work on stock trading bot logic.<br />
+Roman - Finish crypto bot logic. Work on portfolio API. Work on stock trading bot logic.<br />
+Salman - Find best trading/portfolio service early in the week. Find an interesting strategy and implement it in Python.<br />
 Andrew - Find an interesting strategy and implement it in Python. Define edge cases and panic sell conditions for stock trading bot.
