@@ -19,6 +19,110 @@ long int unix_timestamp()
     return now;
 }
 
+// Planning
+// Inputs: Coin tickers, exchanges
+// Methods:
+// Panic sell
+//	List of conditions
+// Find arbitrage existence (Coin Tickers, exchanges, max loop size)
+//	Matrix of values
+// 	Find closed loop so there is no risk
+// Execute trade (list of ticker/exchange tuples)
+//
+//	print expected profit and current time
+// 	move money to maximize trade? may increase transaction time and is too complicated. diversify? Or only base operations around one cryptocoin.
+// 	print actual profit and trade execution time
+// how to ensure we have money to make trade?
+// Things to consider: Fees, Latency, Panic Conditions
+// Exchange specific buy trade sell instructions to abstract
+
+// Key methods planned to be implemented when program is generalized to multiple exchanges
+// void panic(){}
+//
+// std::vector<std::vector<long>> *tradeMatrix createTradeMatrix(std::vector<std::string> *tickers, std::vector<std::string> *exchanges){}
+//
+// bool hasCycle(std::vector<std::string> *exchanges, std::vector<std::string> *tickers){}
+//
+// std::vector<std::tuple<string, string>> *tickerExchangeVector findArbitrage(std::vector<std::vector<long>> *tradeMatrix, int cycleSize, long fee){}
+//
+// bool executeTrade(std::vector<std::tuple<string, string>> *tickerExchangeVector){}
+//
+// bool diversify(std::vector<std::string> *coinsToHoldVector){}
+
+
+// Methods with 3 coins on one exchange while holding in one coin
+bool shouldPanic(){
+	// check for panic conditions
+	return false;
+}
+
+void panic(){
+	//liquidate assets
+}
+
+bool hasArbitrage(std::vector<std::string> *coinsToTradeVector, double fee){
+	return false;
+}
+
+double getAmount(string ticker){
+	return 0;
+}
+
+bool executeTrade(std::vector<std::string> *tradeTickersVector, double amount){
+	return false;
+}
+
+bool limitReached(int limitSec, int limitDay){
+	return false;
+}
+
+void run(){
+	//initialize constants
+	std::vector<std::string> coinsToTradeVector{ "BTC", "ETH", "XRP" };
+	std::vector<std::string> exNamesForward;
+	std::vector<std::string> exNamesBackward;
+	int numCoins = coinsToTradeVector.size();
+	double amount;
+	double fee = 0.001;
+	//api request to get info
+	// exchange limits per second
+	int requestLimitSec = 100;
+	int orderLimitSec = 100;
+	int orderLimitDay = 100;
+	int orders = 0;
+
+	for(int i = 0; i<numCoins; i++){
+		exNamesForward.push_back(coinsToTradeVector.at(i)+coinsToTradeVector.at((i+1)%numCoins));
+		exNamesBackward.push_back(coinsToTradeVector.at(numCoins-i-1)+coinsToTradeVector.at((numCoins-i-2)%numCoins));
+	}
+
+	while(!limitReached(orderLimitSec, orderLimitDay)){
+		if(hasArbitrage(exNamesForward)){
+			amount = getAmount("BTC");
+			executeTrade(std::vector<std::string> *exNamesForward, amount)
+			orders +=3;
+		}
+		else if (hasArbitrage(exNamesBackward)){
+			amount = getAmount("BTC");
+			executeTrade(std::vector<std::string> *exNamesForward, amount)
+			orders +=3;
+		}
+		else{
+			std::cout<<"No arbitrage opportunity at this moment."<<std::endl;
+		}
+		sleep( 1/ (double) requestLimitSec);
+	}
+
+	//loop template
+	for(int i = 0; i<numCoins; i++){
+
+	}
+}
+
+void startBot(){
+	run();
+}
+
 int main(int argc, char** argv) {
 		// Base URL variable initialization
     std::string burl = "https://api.binance.com";
@@ -59,16 +163,20 @@ int main(int argc, char** argv) {
 			cpr::Url{request_url},
 			cpr::Header{{"X-MBX-APIKEY", public_key}}
 		);
-
 		auto json2 = nlohmann::json::parse(response2.text);
 		std::cout << json2.dump(4) << std::endl;
+
+		auto response3 = cpr::Get(
+			cpr::Url{"api.binance.com/api/v1/exchangeInfo"}
+		);
+
+		auto json3 = nlohmann::json::parse(response3.text);
+		std::cout << json3.dump(4) << std::endl;
 
 		// Print out preliminary variables
 		std::cout << "Public Key: " << public_key << std::endl;
 		std::cout << "Hash of Secret Key: " << secret_key_hash << std::endl;
 		std::cout << "Full request url: " << request_url << std::endl;
-
-
 
 		return 0;
 }
