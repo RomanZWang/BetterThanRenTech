@@ -107,3 +107,17 @@ Adam - Finish CEX.io. Work on portfolio API. Work on stock trading bot logic.<br
 Roman - Finish crypto bot logic. Work on portfolio API. Work on stock trading bot logic.<br />
 Salman - Find best trading/portfolio service early in the week. Find an interesting strategy and implement it in Python.<br />
 Andrew - Find an interesting strategy and implement it in Python. Define edge cases and panic sell conditions for stock trading bot.
+
+## Week 4 meeting notes
+### Overview
+Reduced the scope of Crypto bot. People were swamped with work. Looking to set up NLP of web data and portfolio API. We aren't capable of accomplishing entire features as individuals so we're going to converge on one topic.
+
+### Tasks from last meeting
+1. Crypto bot still in progress
+2. Did more research
+
+### Goals for this week
+Adam - Do a sentiment analysis tutorial <br /
+Roman - Finish crypto bot logic. Work on portfolio API <br />
+Salman -  <br />
+Andrew - Find an interesting strategy and implement it in Python. Define edge cases and panic sell conditions for stock trading bot.
