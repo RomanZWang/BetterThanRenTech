@@ -2,22 +2,12 @@
 #include <fstream>
 #include <ctime>
 #include <chrono>
+#include <thread>
 
 #include <cpr/cpr.h>
 #include <json.hpp>
 #include "hash-library/sha256.h"
 #include "hash-library/hmac.h"
-
-void calcAndOutput(const std::string& src){
-	std::cout << "src : \"" << src << "\"\n";
-}
-
-long int unix_timestamp()
-{
-    time_t t = std::time(0);
-    long int now = static_cast<long int> (t);
-    return now;
-}
 
 // Planning
 // Inputs: Coin tickers, exchanges
@@ -51,76 +41,141 @@ long int unix_timestamp()
 
 
 // Methods with 3 coins on one exchange while holding in one coin
-bool shouldPanic(){
+
+class ArbitrageBot {
+    // Access specifier
+		private:
+			std::vector<std::string> *coinsToTradeVector;
+			std::vector<std::string> *exNamesForward;
+			std::vector<std::string> *exNamesBackward;
+			// NEED NUMCOINS int numCoins = coinsToTradeVector.size();
+		public:
+			double balance;
+			double fee;
+			//api request to get info
+			// exchange limits per second
+			int requestLimitSec;
+			int orderLimitSec;
+			int orderLimitDay;
+
+			//TODO Implement rate limiter
+			//https://stackoverflow.com/questions/28008549/limit-while-loop-to-run-at-30-fps-using-a-delta-variable-c
+			//http://www.cplusplus.com/forum/general/71038/
+			std::chrono::high_resolution_clock::time_point startTime;
+
+			//Class related methods
+			ArbitrageBot(std::vector<std::string> *coinNames):requestLimitSec(200), orderLimitSec(10), orderLimitDay(10000){
+				coinsToTradeVector = coinNames;
+				updateCoinTradeNames();
+			};
+			void updateCoinTradeNames();
+
+			//API call helper methods
+			void calcAndOutput(const std::string& src);
+			long int unix_timestamp();
+			double getBalance(std::string ticker);
+
+			//Panic methods
+			bool shouldPanic();
+			void panic();
+
+			//Trade operation methods
+			bool hasArbitrage();
+			bool executeTrade(std::vector<std::string> *tradeTickersVector, double amount);
+
+			//TODO modify parameters as necessary
+			bool limitReached(int limitSec, int limitDay);
+			void run();
+
+
+};
+
+void ArbitrageBot::updateCoinTradeNames(){
+	int numCoins = this->coinsToTradeVector->size();
+	for(int i = 0; i<numCoins; i++){
+		exNamesForward->push_back(this->coinsToTradeVector->at(i) + this->coinsToTradeVector->at((i+1)%numCoins));
+		exNamesBackward->push_back(this->coinsToTradeVector->at((numCoins-i)%numCoins) + this->coinsToTradeVector->at(numCoins-i-1));
+	}
+}
+
+void ArbitrageBot::calcAndOutput(const std::string& src){
+	std::cout << "src : \"" << src << "\"\n";
+}
+
+long int ArbitrageBot::unix_timestamp(){
+    time_t t = std::time(0);
+    long int now = static_cast<long int> (t);
+    return now;
+}
+
+void calcAndOutput(const std::string& src){
+	std::cout << "src : \"" << src << "\"\n";
+}
+
+long int unix_timestamp(){
+    time_t t = std::time(0);
+    long int now = static_cast<long int> (t);
+    return now;
+}
+
+
+// DUMMY
+double ArbitrageBot::getBalance(std::string ticker){
+	return 0;
+}
+
+
+// DUMMY
+bool ArbitrageBot::shouldPanic(){
 	// check for panic conditions
 	return false;
 }
 
-void panic(){
+// DUMMY
+void ArbitrageBot::panic(){
 	//liquidate assets
 }
 
-bool hasArbitrage(std::vector<std::string> *coinsToTradeVector, double fee){
+// DUMMY
+bool ArbitrageBot::hasArbitrage(){
 	return false;
 }
 
-double getAmount(string ticker){
-	return 0;
-}
 
-bool executeTrade(std::vector<std::string> *tradeTickersVector, double amount){
+// DUMMY
+bool ArbitrageBot::executeTrade(std::vector<std::string> *tradeTickersVector, double amount){
 	return false;
 }
 
-bool limitReached(int limitSec, int limitDay){
+// DUMMY
+bool ArbitrageBot::limitReached(int limitSec, int limitDay){
 	return false;
 }
 
-void run(){
-	//initialize constants
-	std::vector<std::string> coinsToTradeVector{ "BTC", "ETH", "XRP" };
-	std::vector<std::string> exNamesForward;
-	std::vector<std::string> exNamesBackward;
-	int numCoins = coinsToTradeVector.size();
-	double amount;
-	double fee = 0.001;
-	//api request to get info
-	// exchange limits per second
-	int requestLimitSec = 100;
-	int orderLimitSec = 100;
-	int orderLimitDay = 100;
+void ArbitrageBot::run(){
+
+	//TODO Change period to value parsed from API request
+	int period = ceil(1000/ (double) requestLimitSec);
 	int orders = 0;
-
-	for(int i = 0; i<numCoins; i++){
-		exNamesForward.push_back(coinsToTradeVector.at(i)+coinsToTradeVector.at((i+1)%numCoins));
-		exNamesBackward.push_back(coinsToTradeVector.at(numCoins-i-1)+coinsToTradeVector.at((numCoins-i-2)%numCoins));
-	}
-
+	double balance;
+	// Run bot
 	while(!limitReached(orderLimitSec, orderLimitDay)){
-		if(hasArbitrage(exNamesForward)){
-			amount = getAmount("BTC");
-			executeTrade(std::vector<std::string> *exNamesForward, amount)
+		if(hasArbitrage()){
+			balance = getBalance("BTC");
+			executeTrade(exNamesForward, balance);
 			orders +=3;
 		}
-		else if (hasArbitrage(exNamesBackward)){
-			amount = getAmount("BTC");
-			executeTrade(std::vector<std::string> *exNamesForward, amount)
+		else if (hasArbitrage()){
+			balance = getBalance("BTC");
+			executeTrade(exNamesForward, balance);
 			orders +=3;
 		}
 		else{
 			std::cout<<"No arbitrage opportunity at this moment."<<std::endl;
 		}
-		sleep( 1/ (double) requestLimitSec);
+		std::this_thread::sleep_for(std::chrono::milliseconds(period));
+		std::cout<<period<<std::endl;
 	}
-
-	//loop template
-	for(int i = 0; i<numCoins; i++){
-
-	}
-}
-
-void startBot(){
-	run();
 }
 
 int main(int argc, char** argv) {
@@ -135,12 +190,12 @@ int main(int argc, char** argv) {
 		// Get keys from hidden key files
     std::ifstream public_key_file("../key_store/public.txt");
     std::string public_key;
-    if (public_key_file.good()){
+    if(public_key_file.good()){
       std::getline(public_key_file, public_key);
     }
     std::string secret_key;
     std::ifstream secret_key_file("../key_store/secret.txt");
-    if (secret_key_file.good()){
+    if(secret_key_file.good()){
       std::getline(secret_key_file, secret_key);
     }
 

@@ -108,11 +108,7 @@ Roman - Finish crypto bot logic. Work on portfolio API. Work on stock trading bo
 Salman - Find best trading/portfolio service early in the week. Find an interesting strategy and implement it in Python.<br />
 Andrew - Find an interesting strategy and implement it in Python. Define edge cases and panic sell conditions for stock trading bot.
 
-<<<<<<< HEAD
 ## Week 4 meeting notes
-=======
-## Week 3 meeting notes
->>>>>>> 1d74c5a867d5a1a460900ab7f908bd803bb68f3b
 ### Overview
 Reduced the scope of Crypto bot. People were swamped with work. Looking to set up NLP of web data and portfolio API. We aren't capable of accomplishing entire features as individuals so we're going to converge on one topic.
 
